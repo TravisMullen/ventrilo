@@ -1,0 +1,57 @@
+{
+  "name": "ventriloquist",
+  "version": "1.0.0",
+  "main": "dist/ventriloquist.cjs.js",
+  "module": "dist/ventriloquist.esm.js",
+  "dependencies": {
+    "camel-case": "^3.0.0",
+    "param-case": "^2.1.1",
+    "pascal-case": "^2.0.1"
+  },
+  "devDependencies": {
+    "rollup": "^0.66.0",
+    "rollup-plugin-commonjs": "^9.1.0",
+    "rollup-plugin-node-resolve": "^3.0.0",
+    "ventriloquist-bootstrap": "../puppeteer-mocha-bootstrap"
+  },
+  "scripts": {
+    "prepare": "npm run test",
+    "prebuild": "npm run lint",
+    "build": "rollup --config rollup.build.js",
+    "pretest": "npm run build",
+    "test": "mocha --reporter spec --require babel-core/register ./dist/bootstrap.esm.js --recursive './{src,test}/*.{spec,test}.*'",
+    "test:serve": "rollup --config rollup.test.js",
+    "lint": "standard --fix './{src,test}/**/*.{js,mjs}' --verbose | snazzy"
+  },
+  "files": [
+    "dist"
+  ],
+  "config": {
+    "ports": {
+      "serve": 10001,
+      "test": 10002
+    }
+  },
+  "babel": {
+    "presets": [
+      "env"
+    ]
+  },
+  "engines": {
+    "node": ">= 8.6"
+  },
+  "license": "ISC",
+  "files": [
+    "dist"
+  ],
+  "keywords": [
+    "testing",
+    "puppeteer",
+    "headless",
+    "es6",
+    "ShadowRoot",
+    "ShadowDOM",
+    "CustomEvent",
+    "CustomElement"
+  ]
+}

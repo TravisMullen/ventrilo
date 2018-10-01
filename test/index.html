@@ -1,0 +1,36 @@
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <script src="./node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js" defer></script>
+  <script type="module" src="./node_modules/research-element/index.js"></script>
+  <style>
+    body {
+      /* avoid truncating when a scroll appears */
+      overflow-y: scroll;
+    }
+    .stage {
+      margin-top: 1rem;
+      padding: 1rem;
+      border: 0.25rem solid #444;
+    }
+  </style>
+</head>
+<body>
+  <h1>Running tests...</h1>
+  <div class="wrapper-element stage">
+    <!-- nothing to see here. -->
+  </div>
+  <script>
+    window.addEventListener('truncate-complete', ({ details }) => {
+      console.log('truncate-complete', this, details)
+    })
+    //const elm = document.createElement('abbr', { is: 'truncate-title' })
+      // elm.setAttribute('is', 'truncate-title')
+      // elm.headline = `hello world: ${+(new Date())}`
+      // elm.is = elementType
+      //elm.title = 'hello world'
+      // document.body.appendChild(elm)
+  </script>
+</body>
+</html>
