@@ -1,11 +1,11 @@
-import pkg from './package.json'
-import build from './rollup.build.js'
 import serve from 'rollup-plugin-serve'
+import build from './rollup.build.js'
+
+import pkg from './package.json'
 
 export default {
   input: build.input,
   output: build.output,
-  external: build.external,
   plugins: [
     ...build.plugins,
     serve({

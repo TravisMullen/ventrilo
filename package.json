@@ -1,25 +1,23 @@
 {
   "name": "ventrilo",
-  "version": "1.0.0",
-  "description": "Support for testing Custom Element, Shadow DOM, and Custom Events using Puppeteer",
+  "version": "1.0.2",
+  "description": "Support for testing Custom Element, Shadow DOM, and Custom Events using Puppeteer.",
   "main": "dist/ventrilo.esm.js",
-  "dependencies": {
-    "camel-case": "^3.0.0",
-    "param-case": "^2.1.1",
-    "pascal-case": "^2.0.1"
-  },
   "devDependencies": {
     "babel-core": "^6.26.3",
     "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.7.0",
     "babel-register": "^6.26.0",
+    "camel-case": "^3.0.0",
     "chai": "^4.2.0",
     "mocha": "^5.2.0",
+    "param-case": "^2.1.1",
+    "pascal-case": "^2.0.1",
     "research-element": "^1.0.0",
     "rollup": "^0.66.0",
     "rollup-plugin-commonjs": "^9.1.0",
     "rollup-plugin-json": "^3.1.0",
-    "rollup-plugin-node-resolve": "^3.0.0",
+    "rollup-plugin-node-resolve": "^3.4.0",
     "rollup-plugin-serve": "^0.6.0",
     "snazzy": "^8.0.0",
     "standard": "^12.0.1",
@@ -71,8 +69,8 @@
   ],
   "homepage": "https://github.com/TravisMullen/ventrilo#readme",
   "bugs": {
-    "url" : "https://github.com/TravisMullen/ventrilo/issues",
-    "email" : "travis@travismullen.com"
+    "url": "https://github.com/TravisMullen/ventrilo/issues",
+    "email": "travis@travismullen.com"
   },
   "repository": {
     "type": "git",
