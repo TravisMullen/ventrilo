@@ -1,8 +1,9 @@
 {
   "name": "ventrilo",
-  "version": "1.0.2",
+  "version": "1.0.5",
   "description": "Support for testing Custom Element, Shadow DOM, and Custom Events using Puppeteer.",
-  "main": "dist/ventrilo.esm.js",
+  "main": "dist/ventrilo.cjs.js",
+  "module": "dist/ventrilo.esm.js",
   "devDependencies": {
     "babel-core": "^6.26.3",
     "babel-polyfill": "^6.26.0",
@@ -21,17 +22,17 @@
     "rollup-plugin-serve": "^0.6.0",
     "snazzy": "^8.0.0",
     "standard": "^12.0.1",
-    "ventrilo-bootstrap": "latest"
+    "ventrilo-bootstrap": "1.0.0"
   },
   "scripts": {
     "prebuild": "npm run lint",
     "build": "rollup --config rollup.build.js",
     "pretest": "npm run build",
-    "test": "mocha --reporter spec --require babel-core/register ./node_modules/ventrilo-bootstrap/dist/bootstrap.esm.js --recursive './{src,test}/*.{spec,test}.*'",
+    "test": "mocha --reporter spec --require babel-core/register ./node_modules/ventrilo-bootstrap/dist/bootstrap.cjs.js --recursive './{src,test}/*.{spec,test}.*'",
     "test:serve": "rollup --config rollup.test.js",
     "lint": "standard --fix './{src,test}/**/*.{js,mjs}' --verbose | snazzy"
   },
-  "license": "ISC",
+  "license": "MIT",
   "files": [
     "dist"
   ],
@@ -69,11 +70,11 @@
   ],
   "homepage": "https://github.com/TravisMullen/ventrilo#readme",
   "bugs": {
-    "url": "https://github.com/TravisMullen/ventrilo/issues",
-    "email": "travis@travismullen.com"
+    "url": "https://github.com/TravisMullen/ventrilo/issues"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/TravisMullen/ventrilo.git"
-  }
+  },
+  "author": "Travis Mullen <travis@travismullen.com> (http://travismullen.com/)"
 }
