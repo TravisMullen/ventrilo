@@ -68,5 +68,14 @@
     "customelements",
     "es6",
     "es2015"
-  ]
+  ],
+  "homepage": "https://github.com/TravisMullen/ventrilo#readme",
+  "bugs": {
+    "url" : "https://github.com/TravisMullen/ventrilo/issues",
+    "email" : "travis@travismullen.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TravisMullen/ventrilo.git"
+  }
 }
