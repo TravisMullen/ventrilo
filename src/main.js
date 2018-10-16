@@ -22,30 +22,30 @@ const ventriloError = msg => new Error(`ventrilo ${version} - ${msg}`)
  */
 const globalAttributes = new Set([
   // 'aria-*',
-  'accesskey',
-  'autocapitalize',
-  'class',
-  'contenteditable',
-  'contextmenu',
-  // 'data-*',
-  'dir',
-  'draggable',
-  'dropzone',
-  'hidden',
-  'id',
+  // 'accesskey',
+  // 'autocapitalize',
+  // 'class',
+  // 'contenteditable',
+  // 'contextmenu',
+  // // 'data-*',
+  // 'dir',
+  // 'draggable',
+  // 'dropzone',
+  // 'hidden',
+  'id'
   // 'is', // set in createElement only as setting via attribute will not instantial custom element
-  'itemid',
-  'itemprop',
-  'itemref',
-  'itemscope',
-  'itemtype',
-  'lang',
-  'slot',
-  'spellcheck',
-  'style',
-  'tabindex',
-  'title',
-  'translate'
+  // 'itemid',
+  // 'itemprop',
+  // 'itemref',
+  // 'itemscope',
+  // 'itemtype',
+  // 'lang',
+  // 'slot',
+  // 'spellcheck',
+  // 'style',
+  // 'tabindex',
+  // 'title',
+  // 'translate'
 ])
 
 const DocumentOrShadowRoot = ['activeElement', 'styleSheets']
@@ -93,10 +93,13 @@ ventrilo.resizeElement = async (selector, width, height) => {
  * @param {createElement} string Query Selector for HTMLElement to resize
  * @param {extended} string Query Selector for HTMLElement to resize
  * @param {parentElement} string Query Selector for HTMLElement to resize
+ * @param {options} Object Options for element creation
+ * @param {options.properties} Object Properties to set on initial connection/render
+ * @param {options.attributes} Object Attributes to set on initial connection/render
  * @returns returns: {Promise<JSHandle>} Promise which resolves to the return value of `pageFunction` as in-page object (JSHandle)
  */
-ventrilo.createCustomElementHandle = async (createElement, extended = null, parentElement, properties = {}) => {
-  const customElement = await page.evaluateHandle((selector, is, parent, props) => {
+ventrilo.createCustomElementHandle = async (createElement, extended = null, parentElement = null, options = {}) => {
+  const customElement = await page.evaluateHandle((selector, is, parent, { properties, attributes }) => {
     let elm
     if (is) {
       elm = document.createElement(selector, { is })
@@ -104,9 +107,16 @@ ventrilo.createCustomElementHandle = async (createElement, extended = null, pare
       elm = document.createElement(selector)
     }
 
-    if (Object.keys(props).length) {
-      for (const item in props) {
-        elm[item] = props[item]
+    if (properties && Object.keys(properties).length) {
+      for (const item in properties) {
+        elm[item] = properties[item]
+      }
+    }
+
+    if (attributes && Object.keys(attributes).length) {
+      for (const item in attributes) {
+        console.log('setAttribute', item, attributes[item])
+        elm.setAttribute(item, attributes[item])
       }
     }
 
@@ -116,7 +126,7 @@ ventrilo.createCustomElementHandle = async (createElement, extended = null, pare
       document.body.appendChild(elm)
     }
     return elm
-  }, createElement, extended, parentElement, properties)
+  }, createElement, extended, parentElement, options)
   return customElement
 }
 
@@ -187,20 +197,23 @@ const defineMethod = type => {
     return result
   }
   // getters
-  ventrilo[type] = async (elementHandle, selector = false) => {
+  let getter = `get${methodName}`
+  ventrilo[getter] = async (elementHandle, selector = false) => {
     const handle = await page.evaluateHandle((el, prop, sel) => {
       let scope
-      if (el.shadowRoot) {
+      if (sel && el.shadowRoot) {
         scope = el.shadowRoot
       } else {
         scope = el
       }
+      console.log('getter', sel, scope[prop])
       return sel ? scope.querySelector(sel)[prop] : scope[prop]
     }, elementHandle, camelCase(type), selector)
     const result = await handle.jsonValue()
     await handle.dispose()
     return result
   }
+  
   // setters for property in format of setType
   let setter = `set${methodName}`
   ventrilo[setter] = async (elementHandle, testValue) => {
@@ -215,6 +228,15 @@ const defineMethod = type => {
   let attribSetter = `setAttribute${methodName}`
   ventrilo[attribSetter] = async (elementHandle, testValue) => {
     const handle = await page.evaluateHandle((el, attributeName, update) => { el.setAttribute(attributeName, update) }, elementHandle, paramCase(type), testValue)
+    const result = await handle.jsonValue()
+    await handle.dispose()
+    return result
+  }
+
+  /** all properties are given attribute setters to optionally test scenatio of failure */
+  let attribGetter = `getAttribute${methodName}`
+  ventrilo[attribGetter] = async (elementHandle) => {
+    const handle = await page.evaluateHandle((el, attributeName) => { return el.getAttribute(attributeName) }, elementHandle, paramCase(type))
     const result = await handle.jsonValue()
     await handle.dispose()
     return result
